@@ -8,6 +8,7 @@ struct NO {
 };
 
 NO* primeiro = NULL;
+NO* anterior = NULL;
 
 // headers
 void menu();
@@ -82,6 +83,8 @@ void inicializar()
 	primeiro = NULL;
 	cout << "Lista inicializada \n";
 
+	
+
 }
 
 void exibirQuantidadeElementos() {
@@ -114,10 +117,9 @@ void exibirElementos()
 
 void inserirElemento()
 {
-	// aloca memoria dinamicamente para o novo elemento
-	NO* novo = (NO*)malloc(sizeof(NO));
-	if (novo == NULL)
-	{
+	
+	NO* novo = (NO*)malloc(sizeof(NO)); //aloca memoria
+	if (novo == NULL){ //se caso dê erro
 		return;
 	}
 
@@ -125,28 +127,116 @@ void inserirElemento()
 	cin >> novo->valor;
 	novo->prox = NULL;
 
-	if (primeiro == NULL)
+	
+	if (primeiro == NULL) //se caso não tiver nada
 	{
 		primeiro = novo;
+		return;
 	}
+
+
+	NO* aux = primeiro;
+	anterior = NULL;
+
+	
+	while (aux != NULL && aux->valor < novo->valor) //percorre a lista para achar as posições corretas para fazer a inserção
+	{
+		anterior = aux;
+		aux = aux->prox;
+	}
+
+	
+	if (aux != NULL && aux->valor == novo->valor) //verificar se num já existe
+	{
+		cout << "O numero informado ja existe!\n";
+		free(novo);
+		return;
+	}
+
+	
+	if (anterior == NULL) //se o valor novo for menor que o primeiro
+	{
+		novo->prox = primeiro;
+		primeiro = novo;
+	}
+	
 	else
 	{
-		// procura o final da lista
-		NO* aux = primeiro;
-		while (aux->prox != NULL) {
-			aux = aux->prox;
-		}
-		aux->prox = novo;
+		anterior->prox = novo;
+		novo->prox = aux;
 	}
 }
 
 void excluirElemento()
 {
 
+	int numExcluir;
+
+	anterior = NULL;
+
+	cout << "Informe o numero para excluir \n";
+	cin >> numExcluir;
+
+	NO* aux = primeiro;
+
+	while (aux != NULL && aux->valor < numExcluir) {
+		anterior = aux;
+		aux = aux->prox;
+	}
+
+	if (aux != NULL && aux->valor != numExcluir)  {
+		cout << "Numero nao encontrado! \n";
+		return;
+	}
+
+	else if (aux == NULL) {
+		cout << "Numero nao encontrado! \n";
+		return;
+	}
+	else {
+
+	
+
+	if (anterior == NULL) //se o num for o primeiro
+	{
+		primeiro = aux->prox;
+		free(aux);
+		cout << "Numero excluido com sucesso! \n";
+		return;
+	}
+
+	else
+	{
+		anterior->prox = aux->prox;
+		free(aux);
+	}
+	}
+
 }
 
 void buscarElemento()
 {
+	NO* aux = primeiro;
+	anterior = NULL; //Prestar + atenção nisso aqui, errei muito
+
+	int num;
+	cout << "Informe o numero a ser buscado: \n";
+	cin >> num;
+
+	while (aux != NULL) {
+		if (aux->valor == num) {
+			cout << "Numero encontrado! \n";
+			return;
+		}
+
+		else if (aux->valor > num) {
+			cout << "Numero nao encontrado! \n";
+			return;
+		}
+		aux = aux->prox;
+	}
+
+	cout << "Numero nao encontrado! \n";
 
 }
 
