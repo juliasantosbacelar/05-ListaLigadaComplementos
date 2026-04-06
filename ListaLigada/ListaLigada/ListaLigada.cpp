@@ -8,6 +8,7 @@ struct NO {
 };
 
 NO* primeiro = NULL;
+NO* ultimo = NULL; // Adicionar esta linha
 
 // headers
 void menu();
@@ -68,8 +69,8 @@ void menu()
 }
 
 void inicializar()
-{
-	// se a lista já possuir elementos
+{  //
+	// se a lista ja possuir elementos
 // libera a memoria ocupada
 	NO* aux = primeiro;
 	while (aux != NULL) {
@@ -78,6 +79,8 @@ void inicializar()
 		free(paraExcluir);
 	}
 
+	
+	ultimo = NULL;
 	primeiro = NULL;
 	cout << "Lista inicializada \n";
 
@@ -127,21 +130,45 @@ void inserirElemento()
 	if (primeiro == NULL)
 	{
 		primeiro = novo;
+		ultimo = novo;
 	}
 	else
 	{
 		// procura o final da lista
-		NO* aux = primeiro;
-		while (aux->prox != NULL) {
-			aux = aux->prox;
-		}
-		aux->prox = novo;
+		
+		ultimo->prox = novo;
+		ultimo = novo;
 	}
 }
 
-void excluirElemento()
+void excluirElemento()//Tarefa 4 (Desafio): 
 {
+	ultimo = NULL;
+	NO* aux = primeiro;
 
+	int numExcluir; //entrada de dados
+	cout << "Digite o elemento que quer excluir: \n";
+	cin >> numExcluir;
+
+	while (aux != NULL) {
+		if (aux->valor == numExcluir) {
+
+			if (ultimo == NULL) {
+				primeiro = aux->prox;
+				free(aux);
+				return; 
+			}
+			else {
+
+				ultimo->prox = aux->prox;
+				free(aux);
+				return;
+			}
+		}
+
+		ultimo = aux;
+		aux = aux->prox;
+	}
 }
 
 void buscarElemento()
