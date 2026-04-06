@@ -70,8 +70,6 @@ void menu()
 
 void inicializar()
 {
-	// se a lista já possuir elementos
-// libera a memoria ocupada
 	NO* aux = primeiro;
 	while (aux != NULL) {
 		NO* paraExcluir = aux;
@@ -117,14 +115,13 @@ void inserirElemento()
 {
 	// aloca memoria dinamicamente para o novo elemento
 	NO* novo = (NO*)malloc(sizeof(NO));
-	if (novo == NULL) //Se estiver null, daria erro, então para
+	if (novo == NULL)
 	{
 		return;
 	}
 
 	cout << "Digite o elemento: ";
 	cin >> novo->valor;
-
 	novo->prox = NULL;
 
 	if (primeiro == NULL)
@@ -135,21 +132,19 @@ void inserirElemento()
 	else
 	{
 		// procura o final da lista
-
+		
 		ultimo->prox = novo;
 		ultimo = novo;
-
 	}
 }
 
-
-void excluirElemento() {
-
+void excluirElemento()//Tarefa 4 (Desafio): 
+{
 	ultimo = NULL;
 	NO* aux = primeiro;
 
 	int numExcluir; //entrada de dados
-	cout << "Informe o elemento que deseja excluir: \n";
+	cout << "Digite o elemento que quer excluir: \n";
 	cin >> numExcluir;
 
 	while (aux != NULL) {
@@ -158,7 +153,7 @@ void excluirElemento() {
 			if (ultimo == NULL) {
 				primeiro = aux->prox;
 				free(aux);
-				return; //Também tenho que lembrar disso..
+				return; 
 			}
 			else {
 
@@ -172,8 +167,6 @@ void excluirElemento() {
 		aux = aux->prox;
 	}
 }
-
-
 void buscarElemento()
 {
 
